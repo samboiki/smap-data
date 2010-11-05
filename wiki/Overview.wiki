@@ -1,0 +1,11 @@
+#summary Overview of the sMAP application protocol for accessing physical data.
+
+= Introduction =
+
+sMAP, the Simple Measurement and Actuation Profile is a simple specification for accessing data feeds from a variety of instruments using a JSON+HTTP -based protocol.  This google project hosts implementations of sMAP feeds for a variety of data sources using different backends.
+
+Currently in use to expose data from the Cory Hall building monitoring project at UC Berkeley, live public feeds using this protocol are available to researchers through the http://www.openbms.org/smap/plot web interface.  
+
+= Details =
+
+To come soon -- the detailed sMAP specification.  The full Sensys '10 [http://www.cs.berkeley.edu/~stevedh/pubs/sensys10smap.pdf paper] and [http://www.cs.berkeley.edu/~stevedh/pubs/sensys10talk.pptx slides] are now available.
