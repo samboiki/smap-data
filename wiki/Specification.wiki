@@ -1,0 +1,59 @@
+#summary Definition of HTTP resources tree and schemas used in sMAP.
+
+= HTTP/RESTful API =
+
+Resources such as meters or sensors expose a REST-ful API over HTTP. This API defines a sets of HTTP resources which allow a user to sample a sensor or read a meter, view configuration and calibration information, or set up periodic reporting. The objects used by these resource are defined by JSON schema. Here we define the structure and semantics of this API. 
+
+{{{
+/ # URI root [GET]
+  /data
+    /[Sense Point]  # representation of 
+      /meter           # meters of quantities of flow provide this service [GET]
+          /channel#      # a particular channel [GET]
+              /reading   # meter reading [GET]
+              /format    # calibration and units [GET/POST]
+              /parameter # sampling parameter [GET/POST]
+              /profile   # history of readings [GET]
+      /sensor          # sensors of instantaneous phenomenon provide this service [GET]
+          /channel#      # same semantics as meter/*
+              /reading   # same as meter/*/reading
+              /format    # same as meter/*/format
+              /parameter # same as meter/*/parameter
+              /profile   # same as meter/*/profile
+    /status       # provides the current status of this meter/sensor [GET]
+    /reporting     
+        /create        # create and query periodic reports [POST]
+        /reports       # list the currently configured reports
+    /context      # meta-data that establishes the context of this monitor [GET]
+        /location      # location of the meter/sensor [GET/POST]
+        /device        # information on the device under monitor [GET/POST]
+        /meta          # other meta-data [GET/POST]
+}}}
+
+== Star Syntax ==
+
+Clients often want to request a set of resources, not just a single reading; the "star" syntax lets you do that very easily.  Take the sMAP path `/data/0/meter/0/reading`.  This refers to sense point "0" and channel "0", and returns an object like
+{{{
+ GET /data/0/meter/0/reading
+ { "Reading" : 10,
+   "ReadingTime" : 1289243366,
+   "ReadingSequence" : 0
+ }
+}}}
+Say instead you wanted to fetch all the readings on this sMAP server.  You can use the `/data/*/*/*/reading` URL, which returns a nested JSON object, pretty much like you would expect:
+{{{
+ GET /data/*/*/*/reading
+ { "0" : {
+   { "meter" : {
+     { "0" : {
+        "Reading" : 10,
+        "ReadingTime" : 1289243366,
+        "ReadingSequence" : 0
+        }
+      }
+    }
+ }
+}}}
+
+Of course, there might be more objects then just the one stream.  An asterisk ("`*`") can be substituted for any level in the URL structure to return an JSON object of the resource names and values available in that collection.  However, sMAP servers may limit the response size in some cases, if there are a large number of sub-resources.
+       
