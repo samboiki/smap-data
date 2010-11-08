@@ -1,0 +1,31 @@
+#summary One-sentence summary of this page.
+
+= sMAP Howto =
+
+This page explains how to create and use a new sMAP feed using `newlib`, a Python library for writing sMAP sources.  `newlib` handles nearly all of the annoying parts of implementing a feed, and allows you to focus on the "interesting" parts -- interfacing with your data source.
+
+The tutorial for creating a sMAP feed using `newlib` is maintained as [http://www.openbms.org/media/pydoc/newlib.html pydoc].
+
+== Stream Archiving ==
+
+Once you've create a sMAP source and have it running, you usually want to save the data somewhere.  An easy way of doing this is by using the web archiving service on `jackalope`.  To add your data to this collection, 
+
+ 1. [http://www.openbms.org/admin/smap/subscription/add/ Add] your sMAP feed to the system, additionally specifying the rate you would like the data saved at.  This doesn't start saving the data, only registers the stream.
+ 1. [http://www.openbms.org/smap/status Find] your stream, and start the subscription.  The backend will poll your source to determine what streams are present, and install a reporting instance so that we begin to receive data.
+ 1. [http://www.openbms.org/smap/plot Plot] the incoming data using the plotting tool.
+
+In this system, a ''subscription'' or ''source'' refers to a single sMAP feed.  A ''stream'' is a timeseries from a particular channel in a sMAP feed.
+
+This requires a local account at Berkeley -- however, we are looking to open-source this infrastructure so it can be run elsewhere.
+
+== SDK ==
+
+The archiving system assigns each stream a unique identifier, of the form `id@hosturl`.  For instance, the lighting power feed is `34@www.openbms.org`.    This identifier can be used with the [http://www.openbms.org/media/pydoc/newlib.series.html series.py] API to query historical and access real-time data from python.  This is the preferred way of loading data from Python.
+
+Data is also available directly, via http.  The URL can be constructed from a stream's identifier.  For instance, for the identifier [ID]@[HOSTURL], data is available at 
+{{{
+http://HOSTURL/smap/data/ID/?start=1287589140&end=1287675540
+}}}
+The `start` and `end` arguments are required and are epoch timestamps.  Additionally, the query argument `&timefmt=js` causes the timestamps to be returned in "javascript" timestamps, or localtime milliseconds since the epoch.  The `&format=csv` query returns results in comma-separated value format, instead of the default JSON list.
+
+This interface is limited to 10000 points; client libraries like `series.py` are expected to break up large requests into multiple smaller ones.
