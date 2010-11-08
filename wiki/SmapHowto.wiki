@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Instructions for creating a sMAP feed; link to pydoc
 
 = sMAP Howto =
 
