@@ -6,6 +6,6 @@ sMAP, the Simple Measurement and Actuation Profile is a simple specification for
 
 Currently in use to expose data from the Cory Hall building monitoring project at UC Berkeley, live public feeds using this protocol are available to researchers through the http://www.openbms.org/smap/plot web interface.  
 
-= Details =
+= Version 2.0 = 
 
-To come soon -- the detailed sMAP specification.  The full Sensys '10 [http://www.cs.berkeley.edu/~stevedh/pubs/sensys10smap.pdf paper] and [http://www.cs.berkeley.edu/~stevedh/pubs/sensys10talk.pptx slides] are now available.
+We have started work on a detailed specification for version 2 and a python implementation is already available.  Python documentation is available here http://www.eecs.berkeley.edu/~stevedh/smap2/ and the design document is http://www.eecs.berkeley.edu/~stevedh/pubs/v2.pdf.
