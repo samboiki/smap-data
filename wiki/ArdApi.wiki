@@ -19,7 +19,7 @@ The only special tag is the `uuid` tag; it will return the uuid of streams match
 
 {{{
 $ curl http://new.openbms.org/backend/api/query
-["Description", ..., Metadata/SourceName", "Path", "Properties/ReadingType", "Properties/Timezone", "Properties/UnitofMeasure"]
+["Description", ..., "Metadata/SourceName", "Path", "Properties/ReadingType", "Properties/Timezone", "Properties/UnitofMeasure"]
 }}}
 
 There are a number of tags which are required, such as the `Properties` ones.  We can now add a restriction on the unit of measure:
@@ -88,3 +88,10 @@ These are used to retrieve data in the time series.  Like the `tags` resource, i
 *data* returns data within a range.  *prev* and *next* retrieve up to *limit* points behind or head of the start time reference.  These can be used to determine the next point after a known reference time without generating a large result set, or to efficiently locate the latest data.
 
 Again, these have the potential to generate large result sets which are slow to generate so it is recommended that you are careful to test carefully and use limit statements to avoid overwhelming yourself.
+
+For instance, you can use this to find the latest readings from all the ACme meters in room 465 at Berkeley:
+
+{{{
+$ curl 'http://new.openbms.org/backend/api/prev/Metadata__Instrument__Manufacturer/UC%20Berkeley/Metadata__Location__Room/465/Properties__UnitofMeasure/mW?starttime=1315272705000'
+[{"uuid": "6fdde16d-d59a-5f38-84ad-6b04b26e0029", "Readings": [[1315272654000, 217.0]]}, {"uuid": "5ff3f108-eb71-531a-872c-e6e4c1aaa31f", "Readings": [[1315272695000, 0.0]]}, {"uuid": "87d1d01c-1358-5af2-b005-036e69c88832", "Readings": [[1315272701000, 3503.0]]}, {"uuid": "d02891b0-6cf0-5d69-a3da-418646c9b779", "Readings": [[1315272701000, 87.0]]}, {"uuid": "5f5ca043-6f34-5bbf-9a6e-6a0eff85f5ad", "Readings": [[1315272699000, 8179.0]]}, {"uuid": "250ba823-0d0c-5b75-906f-ac2f68288352", "Readings": [[1315272700000, 15378.0]]}, {"uuid": "df4c180d-3c78-568f-8ff2-5026c9f42d5d", "Readings": [[1315272692000, 0.0]]}]
+}}}
