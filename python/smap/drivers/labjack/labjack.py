@@ -55,11 +55,21 @@ class LabjackDriver(driver.SmapDriver):
             self.labjacks[ljname] = (ljconf, dev)
 
             for cname, cconf in ljconf['channels'].iteritems():
+                if not 'register' in cconf or not util.is_integer(cconf['register']):
+                    raise core.SmapException("Must include register in labjack conf")
                 cconf['calibrate'] = build_calibrate(cconf)
                 path = '/%s/%s' % (ljname, cname)
                 self.add_timeseries(path,
                                     cconf['unit'], 
                                     data_type='double')
+
+                # set the DIO state if present
+                # if 'diostate' in cconf:
+                #     print "setting dio state of %i to %i" % \
+                #         (cconf['register'], cconf['diostate'])
+                #     dev.setDIOState(cconf['register'], cconf['diostate'])
+
+                # add meta if present
                 meta = { 'Extra/Register' : str(cconf['register']) }
                 meta.update(cconf.get('metadata', {}))
                 self.set_metadata(path, meta)
