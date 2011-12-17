@@ -41,6 +41,7 @@ class DataQuery:
             '/api/data/uuid/'
         query = "?starttime=%i&endtime=%i&limit=%i" % (self.range + (self.limit,))
         spec = [urlbase + x + query for x in uid_list]
+        spec = [urlbase + x + query for x in uid_list]
         start = time.time()
         data = get(spec)
         print "data load took", (time.time() - start)
