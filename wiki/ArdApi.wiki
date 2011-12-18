@@ -83,7 +83,7 @@ These are used to retrieve data in the time series.  Like the `tags` resource, i
 
 || starttime || timestamp of first reading to retrieve (inclusive).  unix milliseconds ||
 || endtime || timestamp to end the query at (only for data) ||
-|| limit || maximum number of points to retrieve.  "0" returns the entire result set ||
+|| limit || maximum number of points to retrieve.  "-1" returns the entire result set ||
 
 *data* returns data within a range.  *prev* and *next* retrieve up to *limit* points behind or head of the start time reference.  These can be used to determine the next point after a known reference time without generating a large result set, or to efficiently locate the latest data.
 
