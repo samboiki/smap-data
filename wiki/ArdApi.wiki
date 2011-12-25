@@ -31,6 +31,8 @@ $ curl http://new.openbms.org/backend/api/query/Properties__UnitofMeasure
 
 Tag names and values should be properly urlencoded, with slash ('/') characters replaced with '__'.
 
+More sophisticated queries can be constructed using the ArdQuery language.
+
 === tags ===
 
 Once a query is constructed you may return the tag set for all matching streams using the tags resource.  To avoid generating a huge result set, it's desirable to check the number of matching streams before trying this one.  Alternatively, you can request the tags for a particular stream by specifying a uuid; that's guaranteed to match only one stream.
