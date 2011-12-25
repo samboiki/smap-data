@@ -9,7 +9,7 @@ The language supports *select*, *delete*, and *set* operations; there is no need
 == Using the query language ==
 You can execute queries by putting them in the body of a POST request to `http://new.openbms.org/backend/api/query`.  If you have sMAP installed, there is an interactive tool, *smap-query* which you can use to do this.
 
-If you have received an API key, you may include it in your request using the "key" query param; multiple keys may be specified by repeating the param.  For instance, the query string "?key=[key]&key=[k2]" will pass along those two keys.  This will (a) allow you to query those streams, if they are marked as private, and (b) allow you to mutate them using the *set* and *delete* operators.
+If you have received an API key, you may include it in your request using the "key" query param; multiple keys may be specified by repeating the param.  For instance, the query string `?key=[key]&key=[k2]` will pass along those two keys.  This will (a) allow you to query those streams, if they are marked as private, and (b) allow you to mutate them using the *set* and *delete* operators.
 
 == *select* == 
 
@@ -92,6 +92,7 @@ query> delete where uuid = '39ba89fe-29f9-5f61-82b6-f5c8a6d5d923'
 Remove a single tag from a stream.
 {{{
 query> delete Metadata/Instrument/Model where uuid = 'a8bec5d1-dced-5a05-a938-41f618a92ac0'
+}}}
 
 == *set* ==
 
