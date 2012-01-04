@@ -49,12 +49,15 @@ You can filter your result set using several operators.
 || operator || description ||
 || *=* || compare tag values; _tagname_ *=* "_tagval_" ||
 || *like* || string matching with SQL LIKE; _tagname_ *like* "_pattern_" ||
+|| *~* || postgres regular expression matching; _tagname_   *~* "_pattern_" ||
 || *has* || assert the stream has a tag; *has* _tagname_ ||
 || *and* || logical and of two queries ||
 || *or* || logical or of two queries ||
 || *not* || invert a match||
 
 These statements can be grouped with parenthesis.  Tag values should be specified as quoted strings, while tag names should not be quoted.
+
+See the [http://www.postgresql.org/docs/8.3/static/functions-matching.html postgres manual] for more information on regular expression syntax.
 
 === Examples ===
 
