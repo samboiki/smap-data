@@ -1,0 +1,38 @@
+#summary How to install the archiver
+
+= Introduction =
+
+Installing the archiver has a few steps, which aren't very well automated at the moment.  They are
+
+  # Install *readingdb*, the time-series database.,
+  # Install and set up postgres, and populate it with the necessary tables.
+  # Install the python dependancies for the archiver.
+
+== Install *readingdb* ==
+
+Start by downloading the latest version of readingdb from the download section of this site.  Follow the instruction in its INSTALL file to build build the database server and associated python interface module.
+
+Once you have it installed, start the database server with something like
+{{{
+$ reading-server -d /tmp/data -c 512
+}}}
+
+This starts a readingdb server on the default port (4242), and sticks the data in /tmp/data.
+
+*NB*: the server does not need to be run as root, and if you do try to run it as root, it will try to drop privileges to the _www-data_ user.  You'll need to make sure that user has permissions for whatever your data directory is.
+
+== Get the sMAP source ==
+
+At the moment, you should start from svn by following the checkout instructions.
+
+== Setup postgres ==
+
+Follow the instructions for your operating system to install postgres.  You may have to change `listen_addresses`, and may wish to adjust `shared_buffers` to increase the size of the buffer pool.  You probably also want to turn `autovacuum` on to avoid badness.
+
+Once you've done this, create an account and database for the archiver.  Let's say,
+
+  username: archiver
+  database: archiver
+  password: password
+
+Then load the tables 
