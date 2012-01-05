@@ -61,7 +61,7 @@ You may use your system's package manager or easy_install to get these from pypi
 === Notes ===
   # The avro packages are a bit messed up due to dependencies on snappy.  
 
-== Set up *powerdb2* and the database ==
+== Setup *powerdb2* and the database ==
 
 PowerDB provides the web frontend for viewing your data.  Although you can use smap drivers and the archiver without it, it provides a convenient interface for managing api keys and looking at data.
 
@@ -75,12 +75,13 @@ DATABASE_PASSWORD = 'password'
 DATABASE_HOST = 'localhost' 
 }}}
 
-Once you've done this, you should go ahead and create the django admin tables.  This creates all the tables needed by the archiver, so even if you're not planning on using *powerdb2*, you should still do this; alternatively the raw sql is located in smap-data/python/smap/archiver/sql.
+Once you've done this, you should go ahead and create the django admin tables.  This creates all the tables needed by the archiver, so even if you're not planning on using *powerdb2*, you should still do this; alternatively the raw sql is located in `smap-data/python/smap/archiver/sql`.
 {{{
 $ python manage.py syncdb
 }}}
+Make sure you create a superuser account when prompted.
 
-== Setup and run the archiver ==
+== Setup and run archiver ==
 
 Edit the `python/conf/archiver.ini` file to have the correct postgres and readingdb databases.  If everything is running on the same machine, you shouldn't need to change much.
 
@@ -94,7 +95,7 @@ $ twistd -n smap-archiver -c python/conf/archiver.ini
 2012-01-04 22:37:43-0800 [-] Starting factory <twisted.web.server.Site instance at 0x2aacdd0>
 }}}
 
-== Start powerdb ==
+== Start *powerdb2* ==
 
 You should now edit `powerdb2/settings.py` so that the `ARD_URL` points to your copy of the archiver.  Once this is done, start the development server:
 
