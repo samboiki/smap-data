@@ -30,17 +30,20 @@ At the moment, you should start from svn by following the checkout instructions.
 {{{
 $ svn checkout http://smap-data.googlecode.com/svn/trunk/ smap-data-read-only
 $ svn checkout http://smap-data.googlecode.com/svn/branches/powerdb2/ powerdb2
+$ cd smap-data-read-only/python
+$ sudo python setup.py install
 }}}
 
 == Setup postgres ==
 
 Follow the instructions for your operating system to install postgres.  You may have to change `listen_addresses`, and may wish to adjust `shared_buffers` to increase the size of the buffer pool.  You probably also want to turn `autovacuum` on to avoid badness.
 
-Once you've done this, create an account and database for the archiver.  Let's say,
+Once you've done this, create an account and database for the archiver.  Let's say (logged in as root),
 
-  username: archiver
-  database: archiver
-  password: password
+{{{
+CREATE USER archiver WITH PASSWORD 'password';
+CREATE DATABASE archiver WITH owner = archiver;
+}}}
 
 == Install Python Dependencies ==
 
@@ -58,4 +61,68 @@ You may use your system's package manager or easy_install to get these from pypi
 === Notes ===
   # The avro packages are a bit messed up due to dependencies on snappy.  
 
-== Setup Database Tables ==
+== Set up *powerdb2* and the database ==
+
+PowerDB provides the web frontend for viewing your data.  Although you can use smap drivers and the archiver without it, it provides a convenient interface for managing api keys and looking at data.
+
+In `powerdb2/`, edit `settings.py` to point to your databases.  For instance:
+
+{{{
+DATABASE_ENGINE = 'postgresql_psycopg2' 
+DATABASE_NAME = 'archiver'                                                        
+DATABASE_USER = 'archiver'                                    
+DATABASE_PASSWORD = 'password'                                                            
+DATABASE_HOST = 'localhost' 
+}}}
+
+Once you've done this, you should go ahead and create the django admin tables.  This creates all the tables needed by the archiver, so even if you're not planning on using *powerdb2*, you should still do this; alternatively the raw sql is located in smap-data/python/smap/archiver/sql.
+{{{
+$ python manage.py syncdb
+}}}
+
+== Setup and run the archiver ==
+
+Edit the `python/conf/archiver.ini` file to have the correct postgres and readingdb databases.  If everything is running on the same machine, you shouldn't need to change much.
+
+Now, you should be able to run the archiver using twistd (remove the "-n" to daemonize).
+
+{{{
+$ twistd -n smap-archiver -c python/conf/archiver.ini
+2012-01-04 22:37:43-0800 [-] Log opened.
+2012-01-04 22:37:43-0800 [-] twistd 11.1.0 (/usr/bin/python 2.6.6) starting up.
+2012-01-04 22:37:43-0800 [-] Site starting on 8079
+2012-01-04 22:37:43-0800 [-] Starting factory <twisted.web.server.Site instance at 0x2aacdd0>
+}}}
+
+== Start powerdb ==
+
+You should now edit `powerdb2/settings.py` so that the `ARD_URL` points to your copy of the archiver.  Once this is done, start the development server:
+
+{{{
+$ cd powerdb2
+$ python manage.py runserver 0.0.0.0:8000
+}}}
+
+== Sending data ==
+
+Once everything is running, you'll want to create a feed and send it to your installation.  Go to `http://localhost:8000/admin` on the computer running the development server, and log in with the superuser account you've created.  You can then add a new subscription, which will generate an API key.
+
+Then go into the `smap-data` project and edit the `python/conf/caiso.ini` configuration file so that the top has a section like this, but with the key replaced with whatever you generated in the admin interface of powerdb:
+
+{{{
+[report 0]
+ReportDeliveryLocation = http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb
+}}}
+
+You'll then be able to start the source with a 
+{{{
+$ twistd -n smap python/conf/caiso.ini
+...
+2012-01-04 23:23:27-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 3 [1]
+2012-01-04 23:23:31-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 7 [7, 8, 7, 7]
+2012-01-04 23:23:31-0800 [HTTP11ClientProtocol,client] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 4 [40, 41, 41, 41]
+2012-01-04 23:23:35-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 7 [192, 192, 192, 192]
+2012-01-04 23:23:37-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 7 [111, 111, 111, 111]
+}}}
+
+After a few moments, you should see it load the last day's worth of data for the Oakland California ISO price node, and push the data into the database.
