@@ -59,7 +59,7 @@ You'll need python dependencies for both the archiver and the powerdb project:
 You may use your system's package manager or easy_install to get these from pypi.  The versions from pypi are managed by the individual teams and are usually more up-to-date.
 
 === Notes ===
-  # The avro packages are a bit messed up due to dependencies on snappy.  
+  # The avro packages are a bit messed up due to dependencies on snappy.  I recommend installing it without dependencies using `easy_install -N avro`.
 
 == Setup *powerdb2* and the database ==
 
