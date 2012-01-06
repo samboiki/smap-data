@@ -157,6 +157,6 @@ It's not recommended to use the django server for production use.  Apache works 
         # Make sure proxies don't deliver the wrong content
 </VirtualHost>
 }}}
-  # Finally, enable the site: `a2ensite powerdb2`.
+  # Finally, enable the site: `a2ensite powerdb2` and restart apache: `/etc/init.d/apache2 reload`.
 
 You should edit this to have the path to your powerdb2 installation, and point to your archiver (the second argument to the `ProxyPass` directive).  This lets apache take care of the http reverse proxy for web clients, and lets it use its own very efficient reverse proxy.
