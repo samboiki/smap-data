@@ -79,7 +79,7 @@ Once you've done this, you should go ahead and create the django admin tables.  
 {{{
 $ python manage.py syncdb
 }}}
-Make sure you create a superuser account when prompted.
+Make sure you create a superuser account when prompted; if you're not prompted, run `python manage.py createsuperuser`. 
 
 == Setup and run archiver ==
 
@@ -127,3 +127,36 @@ $ twistd -n smap python/conf/caiso.ini
 }}}
 
 After a few moments, you should see it load the last day's worth of data for the Oakland California ISO price node, and push the data into the database.
+
+== Running *powerdb2* in Apache ==
+
+It's not recommended to use the django server for production use.  Apache works well and is easy to configure.  To install your project in apache, you just need to do a few things:
+
+  # Install the apache wsgi module: `apt-get install libapache2-mod-wsgi`
+  # Enable the apache modules: `a2enmod proxy_http wsgi`
+  # Edit `powerdb2/django.wsgi` to include the absolute path of your `powerdb2` install location.
+  # Create an apache2 site.  Here is my `/etc/apache2/sites-available/001-powerdb2` file:
+{{{
+ <VirtualHost *:80>
+        ServerName new.openbms.org
+        ServerAlias new.openbms.org
+
+        # statically serve media files
+        Alias "/media" "/mnt/md0/django/smap2/powerdb2/media/"
+
+        # reverse proxy the backend through a failover pool
+        ProxyPass "/backend" http://new.openbms.org:8079/
+
+        # serve the django project using WSGI
+        WSGIScriptAlias / /mnt/md0/django/smap2/powerdb2/django.wsgi
+        
+        # make sure to enable gzip responses
+        SetOutputFilter DEFLATE
+        SetEnvIfNoCase Request_URI \
+        \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+        # Make sure proxies don't deliver the wrong content
+</VirtualHost>
+}}}
+  # Finally, enable the site: `a2ensite powerdb2`.
+
+You should edit this to have the path to your powerdb2 installation, and point to your archiver (the second argument to the `ProxyPass` directive).  This lets apache take care of the http reverse proxy for web clients, and lets it use its own very efficient reverse proxy.
