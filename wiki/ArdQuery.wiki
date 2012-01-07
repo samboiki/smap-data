@@ -18,8 +18,23 @@ _syntax_: *select* _selector_ *where* _where-clause_
 || selector type || possible values ||
 || tag names || `*` or comma-separated list ||
 || *distinct* query || tag name or *tags* literal ||
+|| _data selector_ || data specification ||
 
 The result of a *distinct* query is a JSON list of all matching strings, while the result of a tag name query is a list of sMAP Timeseries objects populated only with the requested fields.
+
+=== data selector ==
+
+You can access stored data from multiple streams by specifying a data specification:
+
+*select data in* (_start time_, _end time_) _limit_ *where* _where-clause_
+
+*select data before* _reference_ _limit_ *where* _where-clause_
+
+*select data after* _reference_ _limit_ *where* _where-clause_
+
+A limit is optional, and can have the form *limit* _number_, *streamlimit* _number_, or *limit* _number_ *streamlimit* _number_.  Limit controls the number of points returned per stream, and streamlimit controls the number of streams returned.  
+
+The _reference_ must either be a timestamp, or the string *now*.
 
 === Examples ===
 
@@ -41,6 +56,16 @@ query> select distinct Metadata/Location/Building
 Get  all buildings and cities
 {{{
 query> select Metadata/Location/Building, Metadata/Location/City
+}}}
+
+Get the latest readings from two streams:
+{{{
+select data before now limit 1 where uuid = 'd26f4650-329a-5e14-8e5a-73e820dff9f0' or uuid = '87c395ee-5ee3-5713-8928-c29e32937877'
+}}}
+
+Retrieve data in a time window for matching streams:
+{{{
+select data in (1325896052000, 1325896252000) streamlimit 50 where Metadata/SourceName ~ "^410"
 }}}
 
 == Where Clauses ==
