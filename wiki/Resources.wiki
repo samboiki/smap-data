@@ -1,0 +1,15 @@
+#summary More information on sMAP
+
+= Further Reading =
+
+  * [http://local.cs.berkeley.edu/wiki2/index.php/File:Local-winter-smap-2012.pptx 2012 Retreat Talk]  Slides describing the profile redesign, and a set of tools built on top.
+
+  * [http://www.eecs.berkeley.edu/~stevedh/pubs/v2.pdf Version 2 Design Document] Detailed use-case survey with requirements and and design of version 2.
+
+  * [http://www.eecs.berkeley.edu/~stevedh/pubs/smap2-overview.pdf Version 2 Overview] Overview of the design of sMAP; 6 pages.
+
+  * [http://www.eecs.berkeley.edu/~stevedh/pubs/sensys10smap.pdf SenSys '10 Paper] The original publication describing the goals and design of the sMAP profile.  The details are no longer accurate but the motivation is the same.
+
+  * [http://www.eecs.berkeley.edu/~stevedh/pubs/hotemnets10haggerty.pdf HotEmNets '10 Paper] Brief description of the work's motivation.
+
+  * [http://local.cs.berkeley.edu/files/local-summer-2011-sdh.pptx readingdb] Talk describing the features of *readingdb*, our time-series database.
