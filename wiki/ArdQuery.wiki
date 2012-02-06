@@ -34,7 +34,7 @@ You can access stored data from multiple streams by specifying a data specificat
 
 A limit is optional, and can have the form *limit* _number_, *streamlimit* _number_, or *limit* _number_ *streamlimit* _number_.  Limit controls the number of points returned per stream, and streamlimit controls the number of streams returned.  
 
-The _reference_ must either be a timestamp, or the string *now*.
+The time references (_start time_, _end time_) are inclusive, exclusive, while (*before*, *after*) select data starting at the first point with timestamp (less than, greater than) the reference time stamp.  _reference_ must either be a timestamp, or the string *now*.
 
 === Examples ===
 
