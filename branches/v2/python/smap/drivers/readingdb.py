@@ -30,4 +30,4 @@ class Driver(SmapDriver, DatagramProtocol):
     def datagramReceived(self, data, addr):
         new = json.loads(data)
         for f in self.fields:
-            self._add('/' + f, new[f])
+            self._add('/' + f, int(new['timestamp']), new[f])
