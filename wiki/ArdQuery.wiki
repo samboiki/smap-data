@@ -26,7 +26,7 @@ The result of a *distinct* query is a JSON list of all matching strings, while t
 
 You can access stored data from multiple streams by specifying a data specification:
 
-*select data in* (_start time_, _end time_) _limit_ *where* _where-clause_
+*select data in* (_start reference_, _end reference_) _limit_ *where* _where-clause_
 
 *select data before* _reference_ _limit_ *where* _where-clause_
 
@@ -34,7 +34,7 @@ You can access stored data from multiple streams by specifying a data specificat
 
 A limit is optional, and can have the form *limit* _number_, *streamlimit* _number_, or *limit* _number_ *streamlimit* _number_.  Limit controls the number of points returned per stream, and streamlimit controls the number of streams returned.  
 
-The time references (_start time_, _end time_) are inclusive, exclusive, while (*before*, *after*) select data starting at the first point with timestamp (less than, greater than) the reference time stamp.  _reference_ must either be a timestamp, or the string *now*.
+The time references (_start time_, _end time_) are inclusive, exclusive, while (*before*, *after*) select data starting at the first point with timestamp (less than, greater than) the reference time stamp.  _reference_ must either be an timestamp in units of UNIX milliseconds, the string literal *now*, or a quoted time string.  Valid time strings are "%m/%d/%Y", "%m/%d/%Y %M:%H", and "%Y-%m-%dT%H:%M:%S".  For instance "10/16/1985" and "2/29/2012 20:00" are valid.  They will be interpreted relative to the timezone of the server.
 
 === Examples ===
 
@@ -63,9 +63,9 @@ Get the latest readings from two streams:
 select data before now limit 1 where uuid = 'd26f4650-329a-5e14-8e5a-73e820dff9f0' or uuid = '87c395ee-5ee3-5713-8928-c29e32937877'
 }}}
 
-Retrieve data in a time window for matching streams:
+Retrieve a week's worth of data for matching streams:
 {{{
-select data in (1325896052000, 1325896252000) streamlimit 50 where Metadata/SourceName ~ "^410"
+select data in ("1/1/2012", "1/7/2012") streamlimit 50 where Metadata/SourceName ~ "^410"
 }}}
 
 == Where Clauses ==
