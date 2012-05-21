@@ -10,18 +10,23 @@ Installing the archiver has a few steps, which aren't very well automated at the
 
 This assumes you're running debian or maybe ubuntu.  For other distributions, the dependancies will be the same, but how you install them is probably different.
 
-== Install *readingdb* ==
-
-Start by downloading the latest version of readingdb from the download section of this site.  Follow the instruction in its INSTALL file to build build the database server and associated python interface module.
-
-Once you have it installed, start the database server with something like
+If you are on Ubuntu, you can add our package repository using
 {{{
-$ reading-server -d /tmp/data -c 512
+$ sudo add-apt-repository ppa:stevedh/smap
 }}}
 
-This starts a readingdb server on the default port (4242), and sticks the data in /tmp/data.
+The repository homepage can be found here: https://launchpad.net/~stevedh/+archive/smap
 
-*NB*: the server does not need to be run as root, and if you do try to run it as root, it will try to drop privileges to the _www-data_ user.  You'll need to make sure that user has permissions for whatever your data directory is.
+== Install *readingdb* ==
+
+The easiest way to install readingdb on ubuntu is using the package repository.  Just do a 
+{{{
+$ apt-get install readingdb readingdb-python monit
+}}}
+
+Monit is a service manager which can keep a lot of our services running.  Once you've done this, do a `monit reload`, and you should see *readingdb* started before long.
+
+Alternatively, you can build and install readingdb from source using the instructions at https://github.com/stevedh/readingdb
 
 == Get the sMAP Archiver Source ==
 
