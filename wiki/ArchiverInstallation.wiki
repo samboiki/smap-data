@@ -32,9 +32,9 @@ Following this step, you should be able to visit "http://localhost" in your brow
 
 == Sending data ==
 
-Once everything is running, you'll want to create a feed and send it to your installation.  Go to `http://localhost/admin`, and log in with the superuser account you've created.  You can then add a new subscription, which will generate an API key.
+Once everything is running, you'll want to create a feed and send it to your installation.  Go to `http://localhost/admin`, and log in with the superuser account you've created.  You can then add a new subscription, which will generate an API key; it will be visible as a random 36-character string.
 
-Then create a configuration file called `conf.ini` with the following contents
+Then create a configuration file called `conf.ini` with the following contents; replace the `<MY NEW KEY>` with the value you generated on the web page.
 {{{
 [report 0]
 ReportDeliveryLocation = http://localhost:8079/add/<MY NEW KEY>
