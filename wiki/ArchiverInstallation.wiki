@@ -2,6 +2,59 @@
 
 = Introduction =
 
+The recommended way to install the entire backend is using Debian packages.  The process has been tested on Ubuntu 11.10, although it will probably work on other similar distributions.  If an ubuntu machine is not available, or you wish to install the system manually, please read to the end.
+
+= Automated Install =
+
+If you are on Ubuntu 11.10, you can add our package repository using
+{{{
+$ sudo add-apt-repository ppa:stevedh/smap
+$ sudo apt-get update
+}}}
+
+You can then install the entire system using apt:
+
+{{{
+$ apt-get install readingdb readingdb-python powerdb2 monit
+}}}
+
+You will be prompted to create a django admin account during this installation.
+
+The Debian packages will automatically setup and start all required services, with the exception of the web frontend.  They install an apache site called `powerdb2`; if you are not running anything else on your server you can enable it by doing the following; if you have multiple sites you may want to edit the site to add a HostName.
+
+{{{
+$ sudo a2dissite default
+$ sudo a2ensite powerdb2
+$ sudo service apache2 reload
+}}}
+
+Following this step, you should be able to visit "http://localhost" in your browser and see the front end.  You will also have access to "http://localhost/admin", through which you can manage API keys and the trees visible in the plotting front-end.
+
+== Sending data ==
+
+Once everything is running, you'll want to create a feed and send it to your installation.  Go to `http://localhost/admin`, and log in with the superuser account you've created.  You can then add a new subscription, which will generate an API key.
+
+Then create a configuration file called `conf.ini` with the following contents
+{{{
+[report 0]
+ReportDeliveryLocation = http://localhost:8079/add/<MY NEW KEY>
+
+[/]
+uuid = 4a1ed488-a458-11e1-91af-00508dca5a06
+
+[/example]
+type = smap.drivers.example.Driver
+}}}
+
+You'll then be able to start the source with a 
+{{{
+$ twistd -n smap conf.ini
+}}}
+
+After a few moments, you should see some data being sent to your local server, and then be able to find it on the plotting web page.
+
+= Manual Install =
+
 Installing the archiver has a few steps, which aren't very well automated at the moment.  They are
 
   # Install *readingdb*, the time-series database.,
@@ -10,10 +63,6 @@ Installing the archiver has a few steps, which aren't very well automated at the
 
 This assumes you're running debian or maybe ubuntu.  For other distributions, the dependancies will be the same, but how you install them is probably different.
 
-If you are on Ubuntu, you can add our package repository using
-{{{
-$ sudo add-apt-repository ppa:stevedh/smap
-}}}
 
 The repository homepage can be found here: https://launchpad.net/~stevedh/+archive/smap
 
@@ -113,29 +162,6 @@ $ cd powerdb2
 $ python manage.py runserver 0.0.0.0:8000
 }}}
 
-== Sending data ==
-
-Once everything is running, you'll want to create a feed and send it to your installation.  Go to `http://localhost:8000/admin` on the computer running the development server, and log in with the superuser account you've created.  You can then add a new subscription, which will generate an API key.
-
-Then go into the `smap-data` project and edit the `python/conf/caiso.ini` configuration file so that the top has a section like this, but with the key replaced with whatever you generated in the admin interface of powerdb:
-
-{{{
-[report 0]
-ReportDeliveryLocation = http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb
-}}}
-
-You'll then be able to start the source with a 
-{{{
-$ twistd -n smap python/conf/caiso.ini
-...
-2012-01-04 23:23:27-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 3 [1]
-2012-01-04 23:23:31-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 7 [7, 8, 7, 7]
-2012-01-04 23:23:31-0800 [HTTP11ClientProtocol,client] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 4 [40, 41, 41, 41]
-2012-01-04 23:23:35-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 7 [192, 192, 192, 192]
-2012-01-04 23:23:37-0800 [-] publishing to http://localhost:8079/add/4IFTGUYHU7ptu8pMLzVSPyI6xb6DnwOtztvb: 7 [111, 111, 111, 111]
-}}}
-
-After a few moments, you should see it load the last day's worth of data for the Oakland California ISO price node, and push the data into the database.
 
 == Running *powerdb2* in Apache ==
 
