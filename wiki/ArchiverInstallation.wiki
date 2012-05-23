@@ -42,6 +42,7 @@ Then create a configuration file called `conf.ini` with the following contents; 
 ReportDeliveryLocation = http://localhost:8079/add/<MY NEW KEY>
 
 [/]
+Metadata/SourceName = Example sMAP Source
 uuid = 4a1ed488-a458-11e1-91af-00508dca5a06
 
 [/example]
