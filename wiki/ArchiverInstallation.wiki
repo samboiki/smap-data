@@ -61,6 +61,7 @@ If you've gotten this far, you have the entire backend running.  You'll want to 
 
   * Explore making [http://code.google.com/p/smap-data/wiki/ArdQuery ArdQuery] queries against your backend.  Just fire up `smap-query -u http://localhost:8079/api/query` on your machine.
   * Check out how to write your own sMAP source in the [http://www.eecs.berkeley.edu/~stevedh/smap2/tutorial.html tutorial]
+  * Create some new slices on your data in the frontend using SlicrApi
   * Build your own dashboard or other frontend using *powerdb2* as a template
 
 = Manual Install =
