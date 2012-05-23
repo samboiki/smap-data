@@ -6,7 +6,7 @@ One of the key features of the powerdb2 frontend is the ability to create differ
 
 The trees can only be as good as your tags; generally you need to tag your streams in a consistent way in order to be able to build useful trees.  All streams have tags for `Path`, `uuid`, and the `Properties/` space which includes units, data type, and time zone.
 
-Trees are created as javascript arrays, where each element in the array specifies what is displayed at each tree level.  You can edit the available trees through the django admin/ interface; there isn't any error checking so if you specify broken javascript it will break the frontend.
+Trees are created as javascript arrays, where each element in the array specifies what is displayed at each tree level.  You can edit the available trees through the url `/admin/smap/tree` interface; there isn't any error checking so if you specify broken javascript it will break the frontend.
 
 = Simple Tree =
 
