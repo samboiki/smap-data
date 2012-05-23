@@ -55,6 +55,14 @@ $ twistd -n smap conf.ini
 
 After a few moments, you should see some data being sent to your local server, and then be able to find it on the plotting web page.
 
+= Next Steps =
+
+If you've gotten this far, you have the entire backend running.  You'll want to explore and extend this in a couple of different ways.  For instance, you could
+
+* Explore making [http://code.google.com/p/smap-data/wiki/ArdQuery ArdQuery] queries against your backend.  Just fire up `smap-query -u http://localhost:8079/api/query` on your machine.
+* Check out how to write your own sMAP source in the [http://www.eecs.berkeley.edu/~stevedh/smap2/tutorial.html tutorial]
+* Build your own dashboard or other frontend using *powerdb2* as a template
+
 = Manual Install =
 
 Installing the archiver has a few steps, which aren't very well automated at the moment.  They are
