@@ -12,7 +12,7 @@ $ sudo add-apt-repository ppa:stevedh/smap
 $ sudo apt-get update
 }}}
 
-The archive is here (https://launchpad.net/~stevedh/+archive/smap); only the builds for oneiric is working.
+The archive is here ([https://launchpad.net/~stevedh/+archive/smap]); only the builds for oneiric is working.
 
 You can then install the entire system using apt:
 
