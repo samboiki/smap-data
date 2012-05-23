@@ -1,4 +1,4 @@
-#summary How to install the archiver
+#summary How to install the sMAP backend services
 
 = Introduction =
 
