@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The recommended way to install the entire backend is using Debian packages.  The process has been tested on Ubuntu 11.10, although it will probably work on other similar distributions.  If an ubuntu machine is not available, or you wish to install the system manually, please read ArchiverManualInstall.
+The recommended way to install the entire backend is using Debian packages.  The process has been tested on Ubuntu 11.10 and 12.04, although it will probably work on other similar distributions.  If an ubuntu machine is not available, or you wish to install the system manually, please read ArchiverManualInstall.
 
 = Automated Install =
 
@@ -12,7 +12,7 @@ $ sudo add-apt-repository ppa:stevedh/smap
 $ sudo apt-get update
 }}}
 
-The archive is here ([https://launchpad.net/~stevedh/+archive/smap]); only the builds for oneiric is working.
+The archive is here ([https://launchpad.net/~stevedh/+archive/smap]); only the builds for oneiric is working.  If you are on a different version, edit `/etc/apt/sources.list.d/stevedh-smap-<dist>.conf` and replace `<dist>` with `oneiric`.
 
 You can then install the entire system using apt:
 
