@@ -2,7 +2,9 @@
 
 = Further Reading =
 
-  * [http://local.cs.berkeley.edu/wiki2/index.php/File:Local-winter-smap-2012.pptx 2012 Retreat Talk]  Slides describing the profile redesign, and a set of tools built on top.
+  * [http://local.cs.berkeley.edu/wiki2/index.php/File:Local-winter-smap-2012.pptx 2012 Winter Retreat Talk]  Slides describing the profile redesign, and a set of tools built on top.
+
+  * [http://local.cs.berkeley.edu/wiki2/index.php/File:Local-spring-arql-2012.pptx 2012 Summer Retreat]  Design and brief overview of ArdOperators.
 
   * [http://www.eecs.berkeley.edu/~stevedh/pubs/v2.pdf Version 2 Design Document] Detailed use-case survey with requirements and and design of version 2.
 
