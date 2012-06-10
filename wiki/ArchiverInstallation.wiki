@@ -6,13 +6,13 @@ The recommended way to install the entire backend is using Debian packages.  The
 
 = Automated Install =
 
-If you are on Ubuntu 11.10, you can add our package repository using
+If you are on Ubuntu oneiric (11.10) or precise (12.04), you can add our package repository using
 {{{
 $ sudo add-apt-repository ppa:stevedh/smap
 $ sudo apt-get update
 }}}
 
-The archive is here ([https://launchpad.net/~stevedh/+archive/smap]); only the builds for oneiric is working.  If you are on a different version, edit `/etc/apt/sources.list.d/stevedh-smap-<dist>.conf` and replace `<dist>` with `oneiric`.
+The archive is here ([https://launchpad.net/~stevedh/+archive/smap]).
 
 You can then install the entire system using apt:
 
