@@ -2,7 +2,7 @@
 
 = Operators =
 
-The query language allows you to optionally filter the time-series data before returning it to the client.  This functionality is somewhere between "alpha" and "beta" right now; it works but isn't finished.
+The query language allows you to optionally filter the time-series data before returning it to the client.  This functionality is somewhere between "alpha" and "beta" right now; it works but isn't finished.  You might have a look at some [http://local.cs.berkeley.edu/wiki2/index.php/File:Local-spring-arql-2012.pptx slides] which describe at a high level how operators work.
 
 The goal of operators is to allow you to efficiently perform common data cleaning and transformations on your timeseries data before retrieving it; it is not (and will not be) a general-purpose programming language; we believe that more-sophisticated computation is a problem which is already solved elsewhere but ironically, relatively simple operations are hard.
 
