@@ -1,0 +1,80 @@
+#!/usr/bin/python
+# -*- python -*-
+"""
+Copyright (c) 2011, 2012, Regents of the University of California
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions 
+are met:
+
+ - Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+ - Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the
+   distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
+THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+"""
+@author Stephen Dawson-Haggerty <stevedh@eecs.berkeley.edu>
+"""
+
+import os
+import sys
+import uuid
+import logging
+from optparse import OptionParser
+
+from twisted.internet import reactor
+from twisted.python import log
+
+from smap import core, server, driver, loader, smapconf
+
+def get_parser():
+    usage = 'usage: %prog [options] conf-file'
+    parser = OptionParser(usage=usage)
+    parser.add_option('-p', '--port', dest='port', default=None,
+                      type='int',
+                      help='port to run server on')
+    parser.add_option('-d', '--data-dir', dest='data_dir', default=None,
+                      type='str', help='directory for cached data')
+    return parser
+
+def start_log():
+    log.startLogging(sys.stdout)
+
+if __name__ == '__main__':
+    parser = get_parser()
+    opts, args = parser.parse_args()
+    if len(args) != 1: 
+        parser.error("conf file is a required argument")
+
+    start_log()
+
+    # change the default data dir to override the default
+    if opts.data_dir:
+        if not os.access(opts.data_dir, os.X_OK | os.W_OK):
+            raise core.SmapException("Cannot access " + opts.data_dir)
+        smapconf.SERVER['DataDir'] = opts.data_dir
+    inst = loader.load(args[0])
+    if 'SuggestThreadPool' in smapconf.SERVER:
+        print "Suggesting thread pool size:", smapconf.SERVER['SuggestThreadPool']
+        reactor.suggestThreadPoolSize(int(smapconf.SERVER['SuggestThreadPool']))
+
+    if opts.port:
+        server.run(inst, port=opts.port)
+    else:
+        server.run(inst)
