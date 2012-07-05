@@ -49,8 +49,8 @@ The object specification may have any of the following keys:
 
 || Key name || Purpose ||
 || `tag` || Specifies what tag value is used to display ||
-|| `restrict` || Additional ArdQuery where-clause which is added when determining which tags to display at this level ||
-|| `defaultSubStream` || Additional ArdQuery where-clause which is added to help specify which stream to plot when this level in the tree is plotted; useful to avoid plotting thousands of streams when plotted at a high level. If not present, the tree level will not be plotable. ||
+|| `restrict` || Additional [ArdQuery#Where_Clauses where-clause] which is added when determining which tags to display at this level ||
+|| `defaultSubStream` || Additional [ArdQuery#Where_Clauses where-clause] which is added to help specify which stream to plot when this level in the tree is plotted; useful to avoid plotting thousands of streams when plotted at a high level. If not present, the tree level will not be plotable. ||
 || `seriesLabel` || List of tag names used to generate the label in the legend of the plotter. ||
 || `sortfn` || A javascript sort comparison function used to sort the display order for this level in the tree ||
 
