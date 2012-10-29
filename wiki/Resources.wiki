@@ -1,5 +1,8 @@
 #summary More information on sMAP
 
+  * Fall 2012 i4Energy seminar:
+<wiki:video url="http://www.youtube.com/watch?v=og4cMNH5c9g"/>
+
 = Further Reading =
 
   * [http://local.cs.berkeley.edu/wiki2/index.php/File:Local-winter-smap-2012.pptx 2012 Winter Retreat Talk]  Slides describing the profile redesign, and a set of tools built on top.
