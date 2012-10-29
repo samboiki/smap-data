@@ -17,7 +17,7 @@ The archive is here ([https://launchpad.net/~stevedh/+archive/smap]).
 You can then install the entire system using apt:
 
 {{{
-$ apt-get install readingdb readingdb-python python-smap powerdb2 monit
+$ sudo apt-get install readingdb readingdb-python python-smap powerdb2 monit
 }}}
 
 You will be prompted to create a django admin account during this installation.
