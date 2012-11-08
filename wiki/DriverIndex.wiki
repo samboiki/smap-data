@@ -1,0 +1,166 @@
+#summary List of drivers and documentation of arguments
+
+<wiki:toc max_depth="2" />
+
+Unless otherwise specified, arguments without a default value are required.
+
+= Generic Drivers =
+== XML == 
+*Module*: `smap.drivers.xml.XMLDriver`
+
+*Communications*: XML over file, http, or python loader
+
+*Data*: whatever is exposed through the XSLT transform
+|| *Parameter* || *Description* || *Default Value* ||
+|| Uri || URI to load: supported schemes are http, https, file, and python || ||
+|| Rate || Polling frequency (seconds) || 30 ||
+|| Xslt || XSLT transformation to apply to document to convert it to sMAP-XML || ||
+|| Timeformat || python strptime string used to parse the time in the document. || %s ||
+
+XSLT is a way of applying a declarative transformation to XML documents.  Sometimes you can use that to very easily convert existing XML data into sMAP feeds.  There are a few sample XSLT transformation available in trunk/xslt:
+
+|| *Stylesheet* || *Description* ||
+|| `greenbutton.xsl` || Transformation for US GreenButton data packed inside of Atom(http://naesb.org/espi) ||
+|| `obvius.xml` || Generic transformation for Obvius Aquisuite XML data ||
+
+= Electric Meters =
+
+== Dent PowerScout 18 ==
+*Module*: `smap.drivers.dent.Dent18`
+
+*Communications*: Modbus over TCP
+
+*Data*: 6 three-phase electric meters 
+|| *Parameter* || *Description* || *Default Value* ||
+|| Address || Hostname of device (or Modbus/IP gateway) || ||
+|| Port || Port || 4660 ||
+|| ModbusBase || Device modbus address || 1||
+|| Rate || Polling frequency (seconds) || 20 ||
+
+== Veris E30 Panel Meter ==
+*Module* : `smap.drivers.veris.VerisDriver`
+
+*Communications*: Modbus over TCP
+
+*Data*: 42 single-phase power and energy measurements
+|| *Parameter* || *Description* || *Default Value* ||
+|| Address || Hostname of device (or Modbus/IP gateway) || ||
+|| Port || Port || ||
+|| BusID || Device modbus address || 1||
+|| Period || Polling frequency (seconds) || 30 ||
+
+== Power Standards Lab pQube ==
+*Module* : `smap.drivers.pqube.PQubeModbus`
+
+*Communications*: Modbus/TCP
+
+*Data*: Three phase energy, power, and quality measurements
+|| *Parameter* || *Description* || *Default Value* ||
+|| Address || Hostname of device (or Modbus/IP gateway) || ||
+|| Port || Port || 502 ||
+|| SlaveAddress || Device modbus address || 1||
+|| BaseRegister || Base register to start reading at || 7000 ||
+|| Rate || Polling frequency (seconds) || 30 ||
+
+== TED 5000 ==
+*Module* : `smap.drivers.ted.Ted5000Driver`
+
+*Communications*: HTTP/SML
+|| *Parameter* || *Description* || *Default Value* ||
+|| Address || URL of device data page|| ||
+|| Timezone || Local timezone of device || America/Los_Angeles ||
+|| Rate || Polling frequency (seconds) || 60 ||
+
+== UC Berkeley ACme X2 ==
+*Module* : `smap.drivers.acmex2.acmex2.ACmeX2Driver`
+
+*Communications*: Proprietary UDP
+
+*Data*: Per-device energy and power data.
+|| *Parameter* || *Description* || *Default Value* ||
+|| Port || Local IPv6 port to listen on || 702 ||
+
+== Obvius Aquisuite ==
+*Module* : `smap.drivers.obvius.Driver`
+
+*Communications*: Proprietary XML
+|| *Parameter* || *Description* || *Default Value* ||
+|| Url || URL to download from.  Set to the link returned by the XML download link on the obvius page (e.g. http://10.0.0.1/setup/devicexml.cgi?ADDRESS=58&TYPE=DATA) ||  ||
+|| Username || HTTP username to authenticate as || ||
+|| Password || HTTP password || ||
+|| Period || Polling frequency (seconds) || 30 ||
+|| ObviusType || Type of device represented by the xml (see below) ||
+
+Device maps are stored in `smap.drivers.obvius.sensordb`.  These map the somewhat opaque mappings present in the Aquisuite XML to nicer sMAP names.  You can pick one from device type on the Aquisuite Page.  Current mappings are:
+|| *ObviusType* || *Description* ||
+|| Power Measurement ION 6200 || ||
+|| Power Measurement ION 7300|| ||
+|| Power Measurement ION 7330|| ||
+|| Shark 100|| ||
+|| Continental Control Systems LLC, WattNode MODBUS|| ||
+|| Dent Power Scout A|| ||
+
+= Weather =
+
+== Weather Underground  ==
+*Module* : `smap.drivers.wunderground.WunderGround`
+
+*Communications*: XML
+
+*Data*: Current conditions for the station.
+|| *Parameter* || *Description* || *Default Value* ||
+|| Address || WUnderground API URL  || http://api.wunderground.com/weatherstation/WXCurrentObXML.asp ||
+|| ID || WUnderground station ID ||KCABERKE25 ||
+|| Rate || Polling frequency (seconds) || 60 ||
+|| Period || Polling frequency (seconds) || 30 ||
+
+== NOAA Weather Forecasts  ==
+*Module* : `smap.drivers.noaaforecast.NOAAForecast`
+
+*Communications*: XML
+|| *Parameter* || *Description* || *Default Value* ||
+|| lat || Latitude for forecast || ||
+|| lon || Longitude for forecast || ||
+
+== NWS Weather Forecasts  ==
+*Module* : `smap.drivers.forecastTemp.ForecastTempDriver`
+
+*Communications*: XML
+|| *Parameter* || *Description* || *Default Value* ||
+|| Latitude || Latitude for forecast || ||
+|| Longitude || Longitude for forecast || ||
+|| LocationName || Location name || ||
+
+== Vaisala WXT520  ==
+*Module* : `smap.drivers.vaisala.VaisalaDriver`
+
+*Communications*: SDI-12 (serial) over IP
+|| *Parameter* || *Description* || *Default Value* ||
+|| Address || Hostname of serial/io bridge || ||
+|| Port || port ||4660  ||
+
+= ISO Data =
+
+== ETCOT ==
+*Module* : `smap.drivers.ercot.ErcotDriver`
+
+== PJM ==
+*Module* : `smap.drivers.pjm.PJMDriver`
+
+== NYISO ==
+*Module* : `smap.drivers.nyiso.NYIsoDriver`
+
+== MISO ==
+*Module* : `smap.drivers.miso.MIsoDriver`
+
+== Washington BPA ==
+*Module* : `smap.drivers.washingtonbpa.BPADriver`
+
+== CA ISO ==
+*Module* : `smap.drivers.caiso.CaIsoDriver`
+
+== CA ISO LMP Data ==
+*Module* : `smap.drivers.caiso_price.CaIsoPrice`
+
+|| *Parameter* || *Description* || *Default Value* ||
+|| Location || LMP Node name || OAKLAND_1_N001 ||
