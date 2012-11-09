@@ -23,6 +23,21 @@ XSLT is a way of applying a declarative transformation to XML documents.  Someti
 || `greenbutton.xsl` || Transformation for US GreenButton data packed inside of Atom(http://naesb.org/espi) ||
 || `obvius.xml` || Generic transformation for Obvius Aquisuite XML data ||
 
+== Expression Driver ==
+*Module*: `smap.drivers.expr.ExprDriver`
+
+|| *Parameter* || *Description* || *Default Value* ||
+|| Expression || An operator expression to compute || ||
+|| Restrict || An ArdQuery where-clause restricting the set of input streams || ||
+|| Group || A tagname specifying how streams are groups when passed into operators || ||
+
+The expression driver is a way to compute ArdQuery operator expressions over new data.  This gives you a way to create new "virtual" sMAP streams based on other data.  The driver will create streams corresponding to the output of the query
+{{{
+apply _Expression_ to data before now where _Restrict_ group by _Group_
+}}}
+
+As new data arrives, it will be pushed through the expression and published as a new sMAP feed.  To avoid circularity, it's a good idea to make _Restrict_ include at least `has Path and not has Metadata/Extra/Operator`.
+
 = Electric Meters =
 
 == Dent PowerScout 18 ==
@@ -156,6 +171,9 @@ Device maps are stored in `smap.drivers.obvius.sensordb`.  These map the somewha
 == Washington BPA ==
 *Module* : `smap.drivers.washingtonbpa.BPADriver`
 
+== ISO NE ==
+*Module*: `smap.drivers.isone.IsoNEDriver`
+
 == CA ISO ==
 *Module* : `smap.drivers.caiso.CaIsoDriver`
 
@@ -164,3 +182,69 @@ Device maps are stored in `smap.drivers.obvius.sensordb`.  These map the somewha
 
 || *Parameter* || *Description* || *Default Value* ||
 || Location || LMP Node name || OAKLAND_1_N001 ||
+
+= Other Drivers =
+
+== HeatX Flow Meter ==
+*Module*: `smap.drivers.heatx.HeatX`
+
+*Communication*: Modbus over TCP
+
+*Data*: Description from the Central Station Steam Co. Cadillac HEATX BTU Meter
+|| *Parameter* || *Description* || *Default Value* ||
+|| Host || Hostname || ||
+|| Rate || Polling rate (seconds) || 20 ||
+
+== Omega iSeries Steam Gauge ==
+*Module*: `smap.drivers.iseries.IseriesSteam`
+
+*Communication*: Proprietary TCP
+
+|| *Parameter* || *Description* || *Default Value* ||
+|| Host || Hostname || ||
+|| Rate || Polling rate (seconds) || 20 ||
+
+== Labjack UE9 ==
+*Module*: `smap.drivers.labjack.LabjackDriver`
+
+*Communicate*: Labjack modbus.  Requires updated Labjack firmware.
+
+|| *Parameter* || *Description* || *Default Value* ||
+|| ConfModule || Python module name with configuration || ||
+
+This module is configured through a python module you must write; here is an example (in a file named `labjackconf.py`:
+{{{
+BIP_5V = 0x08    # from the datasheet
+
+def temp_cal(x):    # convert an analog reading to celsius
+    return x*55.57-273.15+255.37
+
+CONF = {
+    'labjack01' : {
+         'address' : '10.0.0.1',
+         'rate' : 10,
+         'channels' : {
+              'freezer_bat_temp' : {
+                   'register' : 0,      # Ain0 
+                   'unit' : 'C',
+                   'calibrate' : temp_cal,
+                   'range' : BIP_5V,
+                   },
+              'freezer_air_temp' : {
+                   'register' : 2,      # Ain1
+                   'unit' : 'C',
+                   'calibrate' : lambda x: (x * 100) - 273.15,
+                   'range' : BIP_5V,
+
+                   },
+              }
+        }
+}}}
+
+== ReadingDB ==
+*Module*: `smap.drivers.readingdb.Driver`
+
+*Data*: Statistics from a [https://github.com/stevedh/readingdb readingdb] database
+
+|| *Parameter* || *Description* || *Default Value* ||
+|| Port || ReadingDB database port || 4242 ||
