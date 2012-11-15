@@ -2,7 +2,11 @@
 
 = Introduction =
 
-The recommended way to install the entire backend is using Debian packages.  The process has been tested on Ubuntu 11.10 and 12.04, although it will probably work on other similar distributions.  If an ubuntu machine is not available, or you wish to install the system manually, please read ArchiverManualInstall.  You can see a screencast of this process [http://windows.lbl.gov/smap/video/smap_installation.mov here], contributed by Christian Kohler.
+The recommended way to install the entire backend is using Debian packages.  The process has been tested on Ubuntu 11.10 and 12.04, although it will probably work on other similar distributions.  It contains stable version of the sMAP system.  If an Ubuntu machine is not available, or you wish to install the system manually, please read ArchiverManualInstall.
+
+== Resources == 
+  # You can see a screencast of this process [http://windows.lbl.gov/smap/video/smap_installation.mov here], contributed by Christian Kohler.
+  # Another installation option is an experimental [http://jackalope.cs.berkeley.edu/~stevedh/Ubuntu-11.10-smap-444.ova vm image] [1.6G].  It has Ubuntu 11.10 installed; the username/password is ubuntu/reverse, and the login for the sMAP admin page is root/reverse.
 
 = Automated Install =
 
