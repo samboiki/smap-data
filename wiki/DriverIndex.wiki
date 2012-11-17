@@ -114,7 +114,9 @@ Device maps are stored in `smap.drivers.obvius.sensordb`.  These map the somewha
 || Shark 100|| ||
 || Continental Control Systems LLC, WattNode MODBUS|| ||
 || Dent Power Scout A|| ||
-
+|| Veris Full-Data Energy Meter || ||
+|| SquareD || ? ||
+|| GE Enhanced MicroVersaTrip || ||
 = Weather =
 
 == Weather Underground  ==
