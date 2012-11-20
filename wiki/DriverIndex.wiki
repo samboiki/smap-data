@@ -80,7 +80,7 @@ As new data arrives, it will be pushed through the expression and published as a
 == TED 5000 ==
 *Module* : `smap.drivers.ted.Ted5000Driver`
 
-*Communications*: HTTP/SML
+*Communications*: HTTP/XML
 || *Parameter* || *Description* || *Default Value* ||
 || Address || URL of device data page|| ||
 || Timezone || Local timezone of device || America/Los_Angeles ||
@@ -117,6 +117,38 @@ Device maps are stored in `smap.drivers.obvius.sensordb`.  These map the somewha
 || Veris Full-Data Energy Meter || ||
 || SquareD || ? ||
 || GE Enhanced MicroVersaTrip || ||
+
+== PG&E GreenButton Downloader ==
+*Module*: `smap.drivers.pge` + `smap.drivers.xml.XMLDriver`
+
+*Communications*: Web scrape + XML
+
+PG&E makes residential smartmeter data available, but difficult to download through their webpage.  You can combine a mechanized download of the xml with an XSLT transform to create a sMAP source from your PG&E data.
+|| *Parameter* || *Description* || *Example Value* ||
+|| Uri || Set to tell XML driver to use the loader || python://smap.drivers.pge.update ||
+|| Xslt || Path to XSLT stylesheet.  Included with the sMAP distribution || xslt/greenbutton.xsl ||
+|| Period || Frequency to poll at.  PG&E data updates infrequently. || 86400 ||
+|| Username || PG&E Login || ||
+|| Password || PG&E Password || ||
+|| To || Optional; date to start download at || 1/1/2010 ||
+|| From || Optional; date to end download at || 12/31/2012 ||
+|| Type || Optional; type of data feed to use from the result || "gas" or "electric" ||
+
+Here's a full example:
+
+{{{
+[/pge-gas]
+type = smap.drivers.xml.XMLDriver
+Uri = python://smap.drivers.pge.update
+Xslt = ~/smap-data/xslt/greenbutton.xsl
+Period = 86400
+Username = <username>
+Password = <password>
+# From = 1/1/2010
+# To = 12/31/2012
+Type = gas
+}}}
+
 = Weather =
 
 == Weather Underground  ==
