@@ -21,7 +21,8 @@ XSLT is a way of applying a declarative transformation to XML documents.  Someti
 
 || *Stylesheet* || *Description* ||
 || `greenbutton.xsl` || Transformation for US GreenButton data packed inside of Atom(http://naesb.org/espi) ||
-|| `obvius.xml` || Generic transformation for Obvius Aquisuite XML data ||
+|| `obvius.xsl` || Generic transformation for Obvius Aquisuite XML data ||
+|| `ted5000.xsl` || Transform for the Ted 5000 which exports all channels ||
 
 == Expression Driver ==
 *Module*: `smap.drivers.expr.ExprDriver`
