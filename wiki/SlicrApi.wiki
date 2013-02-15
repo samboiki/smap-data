@@ -23,7 +23,7 @@ This shows how to specify a simple tree.  The first level is specified using a s
 To make this concrete, suppose we have a stream with the tags `{"Metadata/SourceName": "Test", "Metadata/Extra/Description" : "Sensor #1"}`.  This would generate the following tree in the interface:
 
 {{{
-- Tree
+- Test
 | - Sensor #1
 }}}
 
