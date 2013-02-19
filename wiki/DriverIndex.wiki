@@ -121,7 +121,7 @@ Device maps are stored in `smap.drivers.obvius.sensordb`.  These map the somewha
 || GE Enhanced MicroVersaTrip || ||
 
 == PG&E GreenButton Downloader ==
-*Module*: `smap.drivers.pge` + `smap.drivers.xml.XMLDriver`
+*Module*: `smap.drivers.pge` + `smap.drivers.xslt.XMLDriver`
 
 *Communications*: Web scrape + XML
 
