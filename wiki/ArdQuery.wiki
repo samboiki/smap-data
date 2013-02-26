@@ -74,7 +74,7 @@ select data in ("1/1/2012", "1/7/2012") streamlimit 50 where Metadata/SourceName
 
 Retrieve the last five minutes of outside air data:
 {{{
-select data in (now - 5minutes, now) where Metadata/Extra/Type = 'oat'
+select data in (now -5minutes, now) where Metadata/Extra/Type = 'oat'
 }}}
 
 == Where Clauses ==
